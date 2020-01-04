@@ -29,8 +29,8 @@ public class CommitService {
     @Value("${github.token}")
     private String token;
 
-    public void uploadToGitHub(String title,String originContent){
-        String content = cleanContent(originContent);
+    public void uploadToGitHub(YuqueRequestDto.YuqueData yuqueData){
+        String content = cleanContent(yuqueData.getBody());
         GitHubApi gitHubApi = GitHubApi.getInstance(owner,repo,token);
         RefDto refDto = gitHubApi.getRef();
         CommitDto commitDto = gitHubApi.getCommit(refDto.getObject().getSha());
@@ -57,7 +57,7 @@ public class CommitService {
         }
         log.info("content is {}",content);
         CreateBlobResponse createBlobResponse = gitHubApi.createBlob(content,"utf-8");
-        blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),"content/blog/" + title  + ".md"));
+        blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),"content/blog/" + yuqueData.getTitle()  + ".md"));
         List<Map<String,Object>> treeMpas = Lists.newArrayList();
         blobListDtoArrayList.forEach(i->{
             treeMpas.add(ImmutableMap.of("path",i.getPath(),"mode","100644","type","blob","sha",i.getSha()));

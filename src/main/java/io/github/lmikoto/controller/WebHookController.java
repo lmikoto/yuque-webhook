@@ -25,7 +25,7 @@ public class WebHookController {
     public String webHook(@RequestBody YuqueRequestDto req){
         log.info(JacksonUtils.toJson(req));
         executorService.execute(()->{
-            commitService.uploadToGitHub(req.getData().getTitle(),req.getData().getBody());
+            commitService.uploadToGitHub(req.getData());
         });
         return "";
     }
