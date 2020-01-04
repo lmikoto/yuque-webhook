@@ -1,4 +1,4 @@
 github:
     owner: ${OWNER:lmikoto}
-    repo: ${REPO:blog}
+    repo: ${REPO:api}
     token: ${TOKEN}
