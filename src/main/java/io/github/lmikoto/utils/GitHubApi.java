@@ -6,13 +6,9 @@ import io.github.lmikoto.HttpUtils;
 import io.github.lmikoto.JacksonUtils;
 import io.github.lmikoto.dto.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GitHubApi {
 
@@ -82,39 +78,4 @@ public class GitHubApi {
         return JacksonUtils.fromJson(HttpUtils.post(basUrl + "/git/refs/heads/master",param,header),UpdataRefResponse.class);
     }
 
-
-
-    public static void main(String[] args) throws URISyntaxException {
-
-        //
-        String imageStr = "aaa ![image.png](https://cdn.nlark.com/yuque/0/2020/png/328252/1578129354411-201e2a74-5691-49e0-aec8-2fe4bb5212c8.png#align=left&display=inline&height=390&name=image.png&originHeight=390&originWidth=928&size=211466&status=done&style=none&width=928)aaa";
-
-//        String a = HttpUtils.get("");
-
-//        String url = "https://cdn.nlark.com/yuque/0/2020/png/328252/1578129354411-201e2a74-5691-49e0-aec8-2fe4bb5212c8.png#align=left&display=inline&height=390&name=image.png&originHeight=390&originWidth=928&size=211466&status=done&style=none&width=928";
-////        System.out.println(a);
-////        System.out.println();
-//        BASE64Encoder encoder = new BASE64Encoder();
-//
-//        GitHubApi gitHubApi = GitHubApi.getInstance("lmikoto","api","571e5de395954f43219490f7ef6dc7ff04486e06");
-//        RefDto refDto = gitHubApi.getRef();
-//        CommitDto commitDto = gitHubApi.getCommit(refDto.getObject().getSha());
-//        CreateBlobResponse createBlobResponse = gitHubApi.createBlob(Base64Utils.getImageStrFromUrl(url),"base64");
-//        CreateTreeResponse createTreeResponse = gitHubApi.createTree(commitDto.getTree().getSha(),"src/b.png", createBlobResponse.getSha());
-//        CreateCommitResponse createCommitResponse = gitHubApi.createCommit(refDto.getObject().getSha(),createTreeResponse.getSha());
-//        UpdataRefResponse updataRefResponse = gitHubApi.updataRef(createCommitResponse.getSha());
-
-        Pattern pattern = Pattern.compile("!\\[image.png]\\((.*?)\\)");
-        Matcher matcher = pattern.matcher(imageStr);
-        while (matcher.find()) {
-            int i = 1;
-            URI uri = new URI(matcher.group(i));
-            String path = uri.getPath();
-            String imageName = path.substring(path.lastIndexOf('/') + 1);
-            System.out.println(imageName);
-            i++;
-        }
-        System.out.println('e');
-
-    }
 }
