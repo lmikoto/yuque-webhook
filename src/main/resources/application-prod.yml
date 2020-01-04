@@ -1,0 +1,4 @@
+github:
+    owner: ${OWNER:lmikoto}
+    repo: ${REPO:blog}
+    token: ${TOKEN}
