@@ -55,6 +55,22 @@ public class CommitService {
             }
             i++;
         }
+
+        content = new StringBuffer("")
+                .append("---\n")
+                .append("title: ")
+                .append(yuqueData.getTitle())
+                .append("\n")
+                .append("description: ")
+                .append(yuqueData.getTitle())
+                .append("\n")
+                .append("date: ")
+                .append(yuqueData.getCreated_at())
+                .append("\n")
+                .append("---\n")
+                .append(content)
+                .toString();
+
         log.info("content is {}",content);
         CreateBlobResponse createBlobResponse = gitHubApi.createBlob(content,"utf-8");
         blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),"content/blog/" + yuqueData.getTitle()  + ".md"));
