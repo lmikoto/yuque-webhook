@@ -81,6 +81,7 @@ public class CommitService {
         CreateTreeResponse createTreeResponse = gitHubApi.createTree(commitDto.getTree().getSha(),treeMpas);
         CreateCommitResponse createCommitResponse = gitHubApi.createCommit(refDto.getObject().getSha(),createTreeResponse.getSha());
         gitHubApi.updataRef(createCommitResponse.getSha());
+        log.info("upload end");
     }
 
     private String cleanContent(String content){

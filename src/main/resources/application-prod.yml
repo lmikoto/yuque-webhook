@@ -2,5 +2,5 @@ server:
     port: ${PORT:8080}
 github:
     owner: ${OWNER:lmikoto}
-    repo: ${REPO:api}
+    repo: ${REPO:blog}
     token: ${TOKEN}
