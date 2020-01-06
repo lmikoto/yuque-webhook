@@ -46,10 +46,10 @@ public class CommitService {
                 URI uri = new URI(imageUrl);
                 String path = uri.getPath();
                 String imageName = path.substring(path.lastIndexOf('/') + 1);
-                String githubPath = "assets/" + imageName;
-                content = content.replace(imageUrl,"/" + githubPath);
+                String githubPath = "source/images/" + imageName;
+                content = content.replace(imageUrl,"/images/" + imageName);
                 CreateBlobResponse createBlobResponse = gitHubApi.createBlob(Base64Utils.getImageStrFromUrl(imageUrl),"base64");
-                blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),"content/" + githubPath));
+                blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),githubPath));
             }catch (Exception e){
                 log.error("{}", Throwables.getStackTraceAsString(e));
             }
@@ -61,19 +61,15 @@ public class CommitService {
                 .append("title: ")
                 .append(yuqueData.getTitle())
                 .append("\n")
-                .append("description: ")
-                .append(yuqueData.getTitle())
-                .append("\n")
                 .append("date: ")
                 .append(yuqueData.getCreated_at())
                 .append("\n")
-                .append("---\n")
                 .append(content)
                 .toString();
 
         log.info("content is {}",content);
         CreateBlobResponse createBlobResponse = gitHubApi.createBlob(content,"utf-8");
-        blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),"content/blog/" + yuqueData.getTitle()  + ".md"));
+        blobListDtoArrayList.add(new BlobListDto(createBlobResponse.getSha(),"source/_posts/" + yuqueData.getTitle()  + ".md"));
         List<Map<String,Object>> treeMpas = Lists.newArrayList();
         blobListDtoArrayList.forEach(i->{
             treeMpas.add(ImmutableMap.of("path",i.getPath(),"mode","100644","type","blob","sha",i.getSha()));
