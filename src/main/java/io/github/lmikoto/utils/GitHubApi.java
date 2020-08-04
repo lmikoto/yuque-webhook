@@ -31,8 +31,7 @@ public class GitHubApi {
     }
 
     public RefDto getRef(){
-        String result = HttpUtils.get(basUrl + "/git/refs/heads/master");
-        return JacksonUtils.fromJson(result, RefDto.class);
+        return HttpClient.get(basUrl + "/git/refs/heads/master",header,RefDto.class);
     }
 
     public CommitDto getCommit(String sha){
@@ -76,6 +75,18 @@ public class GitHubApi {
         param.put("sha",newCommitSha);
         param.put("force", true);
         return JacksonUtils.fromJson(HttpUtils.post(basUrl + "/git/refs/heads/master",param,header),UpdataRefResponse.class);
+    }
+
+    public void delete(String sha,String path,String message) {
+        Map<String,String> param = Maps.newHashMap();
+        param.put("sha",sha);
+        param.put("message", message);
+        String url = basUrl + "/contents/" + path;
+        HttpClient.delete(url,JacksonUtils.toJson(param),header,Void.class);
+    }
+
+    public Contents getContents(String path){
+        return HttpClient.get(basUrl + "/contents/" + path,Contents.class);
     }
 
 }
